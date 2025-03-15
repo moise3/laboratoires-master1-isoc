@@ -1,0 +1,64 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+
+Vagrant.configure("2") do |config|
+
+  config.vm.define "appli-isoc" do |app|
+    
+    app.vm.hostname = "appli-isoc"
+    app.vm.network "private_network", ip: "10.0.0.101"
+    app.vm.box = "ubuntu/trusty64"
+    app.vm.box_check_update = false
+    app.vm.provider "virtualbox" do |vb|
+      vb.name = "appli-isoc"
+      vb.memory = "2048"
+      vb.cpus = 2
+    end
+  end
+
+  config.vm.define "web-isoc" do |web|
+    # web.vm.name = "web-isoc"
+    web.vm.hostname = "web-isoc"
+    web.vm.network "private_network", ip: "10.0.0.102"
+    # web.vm.network "forwarded_port", guest: 80, host: 8080
+    web.vm.box = "ubuntu/trusty64"
+    web.vm.box_check_update = false
+    web.vm.provider "virtualbox" do |vb|
+      vb.name = "web-isoc"
+      vb.memory = "2048"
+      vb.cpus = 2
+    end
+    web.vm.provision "shell", inline: <<-SHELL
+      apt-get update
+      apt-get install -y apache2
+    SHELL
+  end
+
+  config.vm.define "bd-isoc" do |bd|
+    # bd.vm.name = "db-isoc"
+    bd.vm.hostname = "db-isoc"
+    bd.vm.network "private_network", ip: "10.0.0.103"
+    bd.vm.box = "ubuntu/trusty64"
+    bd.vm.box_check_update = false
+    bd.vm.provider "virtualbox" do |vb|
+      vb.name = "db-isoc"
+      vb.memory = "2048"
+      vb.cpus = 2
+    end
+  end
+
+  config.vm.disk :disk, size: "20GB", primary: true
+  
+  #
+  # View the documentation for the provider you are using for more
+  # information on available options.
+
+  # Enable provisioning with a shell script. Additional provisioners such as
+  # Ansible, Chef, Docker, Puppet and Salt are also available. Please see the
+  # documentation for more information about their specific syntax and use.
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
+end

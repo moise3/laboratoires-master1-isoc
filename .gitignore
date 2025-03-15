@@ -1,0 +1,7 @@
+.vagrant
+vagrant-single/.vagrant
+vagrant-multiple/.vagrant
+iso/
+virtualisation-manuelle/
+demo-vm-vagrant-m1-isoc-disk.vdi
+Vagrantfile-old
